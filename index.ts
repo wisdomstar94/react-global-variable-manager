@@ -1,0 +1,1 @@
+export * from './src/hooks/use-global-variable-manager/use-global-variable-manager.hook';
