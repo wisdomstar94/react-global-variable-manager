@@ -12,7 +12,24 @@ export function useGlobalVariableManager(props?: IUseGlobalVariableManager.Props
 
   function _setVariableItem(item: IUseGlobalVariableManager.VariableItem) {
     if (typeof window !== 'undefined') {
-      (window as any)[item.name] = item.value;
+      const nameSplit = item.name.split('.');
+      if (nameSplit.length === 1) {
+        (window as any)[item.name] = item.value;
+      } else {
+        let currentObj: any = window;
+        for (let i = 0; i < nameSplit.length; i++) {
+          const name = nameSplit[i];
+
+          if (i === nameSplit.length - 1) {
+            currentObj[name] = item.value;
+          } else {
+            if (currentObj[name] === undefined) {
+              currentObj[name] = {};
+            }
+          }
+          currentObj = currentObj[name];
+        }
+      }
     }
   }
 
